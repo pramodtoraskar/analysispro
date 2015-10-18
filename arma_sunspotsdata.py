@@ -25,6 +25,7 @@ print dta
 print '-'*30
 
 # Index the data set by 'YEAR'
+print len(sm.tsa.datetools.dates_from_range('1700', '2008'))
 print sm.tsa.datetools.dates_from_range('1700', '2008')
 dta.index = pd.Index(sm.tsa.datetools.dates_from_range('1700', '2008'))
 
@@ -45,9 +46,10 @@ print dta.ix[::]
 dta.plot(y='SUNACTIVITY')
 plt.savefig('1_arma_sunspotsdata_befor_sm.png', dpi=200)
 
-print '-'*30
+print '='*300
+print dta.values
 print dta.values.squeeze()
-
+exit()
 fig = plt.figure(figsize=(12,12))
 
 print sm.graphics.tsa.plot_acf
@@ -61,9 +63,11 @@ ax2 = fig.add_subplot(212)
 fig = sm.graphics.tsa.plot_pacf(dta, lags=40, ax=ax2)
 
 fig.savefig('2_arma_sunspotsdata.png', dpi=200)
-print '-'*30
+print '='*300
 
-arma_mod20 =  sm.tsa.ARMA(dta, (2,0)).fit()
+print dta.SUNACTIVITY
+print dta
+arma_mod20 = sm.tsa.ARMA(dta, (2,0)).fit()
 print (arma_mod20.params)
 
 arma_mod30 = sm.tsa.ARMA(dta, (3,0)).fit()
@@ -127,7 +131,7 @@ print(table.set_index('lag'))
 
 print 'So far we dealing with 2008 year.. Let predict data till 2012'
 print '-----------------------------------------------------------------'
- 
+print type(arma_mod30)
 predict_sunspots = arma_mod30.predict('1990', '2012', dynamic=True)
 print predict_sunspots
 
